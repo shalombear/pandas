@@ -22,6 +22,7 @@ import webbrowser
 
 import docutils
 import docutils.parsers.rst
+from security import safe_command
 
 DOC_PATH = os.path.dirname(os.path.abspath(__file__))
 SOURCE_PATH = os.path.join(DOC_PATH, "source")
@@ -147,7 +148,7 @@ class DocBuilder:
             SOURCE_PATH,
             os.path.join(BUILD_PATH, kind),
         ]
-        return subprocess.call(cmd)
+        return safe_command.run(subprocess.call, cmd)
 
     def _open_browser(self, single_doc_html) -> None:
         """

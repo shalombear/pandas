@@ -42,6 +42,7 @@ A malicious user could rename or add programs with these names, tricking
 Pyperclip into running them with whatever permissions the Python process has.
 
 """
+from security import safe_command
 
 __version__ = "1.8.2"
 
@@ -232,14 +233,14 @@ def init_wl_clipboard():
             args.append("--clear")
             subprocess.check_call(args, close_fds=True)
         else:
-            p = subprocess.Popen(args, stdin=subprocess.PIPE, close_fds=True)
+            p = safe_command.run(subprocess.Popen, args, stdin=subprocess.PIPE, close_fds=True)
             p.communicate(input=text.encode(ENCODING))
 
     def paste_wl(primary=False):
         args = ["wl-paste", "-n"]
         if primary:
             args.append(PRIMARY_SELECTION)
-        p = subprocess.Popen(args, stdout=subprocess.PIPE, close_fds=True)
+        p = safe_command.run(subprocess.Popen, args, stdout=subprocess.PIPE, close_fds=True)
         stdout, _stderr = p.communicate()
         return stdout.decode(ENCODING)
 

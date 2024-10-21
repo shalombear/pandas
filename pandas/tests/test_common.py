@@ -16,6 +16,7 @@ import pandas._testing as tm
 from pandas.core import ops
 import pandas.core.common as com
 from pandas.util.version import Version
+from security import safe_command
 
 
 def test_get_callable_name():
@@ -261,8 +262,7 @@ def test_bz2_missing_import():
 @pytest.mark.parametrize("module", ["pandas", "pandas.arrays"])
 def test_pyarrow_missing_warn(module):
     # GH56896
-    response = subprocess.run(
-        [sys.executable, "-c", f"import {module}"],
+    response = safe_command.run(subprocess.run, [sys.executable, "-c", f"import {module}"],
         capture_output=True,
         check=True,
     )
