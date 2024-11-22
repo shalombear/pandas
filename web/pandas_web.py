@@ -449,7 +449,7 @@ def main(
     sys.stderr.write("Context generated\n")
 
     templates_path = os.path.join(source_path, context["main"]["templates_path"])
-    jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(templates_path))
+    jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(templates_path), autoescape=True)
 
     for fname in get_source_files(source_path):
         if os.path.normpath(fname) in context["main"]["ignore"]:
