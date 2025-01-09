@@ -2,7 +2,6 @@ from io import (
     BytesIO,
     StringIO,
 )
-import random
 import string
 
 import numpy as np
@@ -19,6 +18,7 @@ from pandas import (
 )
 
 from ..pandas_vb_common import BaseIO
+import secrets
 
 
 class ToCSV(BaseIO):
@@ -364,7 +364,7 @@ class ReadCSVFloatPrecision(StringIORewind):
 
     def setup(self, sep, decimal, float_precision):
         floats = [
-            "".join([random.choice(string.digits) for _ in range(28)])
+            "".join([secrets.choice(string.digits) for _ in range(28)])
             for _ in range(15)
         ]
         rows = sep.join([f"0{decimal}{{}}"] * 3) + "\n"
